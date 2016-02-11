@@ -3,3 +3,4 @@ nbproject
 #For intelliJ projects
 .idea
 *.iml
+*.xml
