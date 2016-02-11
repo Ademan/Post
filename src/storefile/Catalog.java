@@ -2,9 +2,7 @@ package storefile;
 
 import java.util.Map;
 
-/**
- * Created by Allen Space on 2/10/2016.
- */
+
 public class Catalog {
     private Map<String, Item> mItems;
     private Stock mStock;
@@ -17,11 +15,13 @@ public class Catalog {
 
     }
 
-    public Map<String, Item> getCatalogItems(){
-        return mItems;
-    }
+    //***** Setters ******
+    public void setItems(Map<String, Item> pItems){ mItems = pItems; }
+
+    //****** Getters ******
+    public Map<String, Item> getCatalogItems(){ return mItems; }
 
     public Item getItem(String pUPC){
-        return null;
+        return mItems.get(pUPC);
     }
 }
