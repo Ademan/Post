@@ -41,7 +41,13 @@ After you have completed your task:
 - Push your final commits into your branch.
 - Go to the Github repo.
 - Make a new Pull request.
-- Verify that base branch is Ademan/Post `dev` and merging with your `name-of-branch`.
+- Verify that base branch is Ademan/Post `dev` and compare to `name-of-branch`.
+- Click to add new pull request.
+- We will check that it will merge safely into dev branch.
+
+After merge has happen purple label Merged will indicate that Pull request is complete. 
+In addition an email will be sent to notify you that pull request is comple.
+You may delete the branch on both the Github repo and your local repo (Laptop or Desktop).
 
 
 
