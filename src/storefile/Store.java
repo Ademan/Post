@@ -1,6 +1,6 @@
 package storefile;
 
-import transactionfile.Post;
+import post.Post;
 
 import java.util.List;
 
