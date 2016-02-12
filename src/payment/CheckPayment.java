@@ -8,7 +8,7 @@ public class CheckPayment extends Payment {
     private final double threshold = 0.1;
     
     public CheckPayment(float amountDue) {
-        super(amountDue);
+        super(amountDue, "Check");
     }
     
     @Override

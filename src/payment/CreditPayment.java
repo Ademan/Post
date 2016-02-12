@@ -9,7 +9,7 @@ public class CreditPayment extends Payment {
     private final String creditCardNumber;
     
     public CreditPayment(float amountDue, String cardNumber) {
-        super(amountDue);
+        super(amountDue, "Credit");
         creditCardNumber  = cardNumber;
     }
     
@@ -24,7 +24,7 @@ public class CreditPayment extends Payment {
     }
     
     public float cashReturn() {
-        return 0;
+        return 0f;
     }
     
     private boolean cardAccepted() {
