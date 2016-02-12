@@ -13,6 +13,11 @@ import post.Customer;
 import storefile.Catalog;
 import storefile.Item;
 
+import payment.Payment;
+import payment.CreditPayment;
+import payment.CashPayment;
+import payment.CheckPayment;
+
 public class TransactionReader implements Closeable {
 	private BufferedReader reader;
 	private Catalog catalog;
@@ -128,11 +133,11 @@ public class TransactionReader implements Closeable {
 			if (line.startsWith("CHECK")) {
 				float amount = getPaymentAmount(line);
 
-				return new CashPayment(amount); // FIXME: different class for check?
+				return new CheckPayment(0.0f);
 			} else if (line.startsWith("CASH")) {
 				float amount = getPaymentAmount(line);
 
-				return new CashPayment(amount);
+				return new CashPayment(0.0f);
 			} else if (line.startsWith("CREDIT")) {
 				String[] components = line.split(" ");
 
@@ -140,7 +145,7 @@ public class TransactionReader implements Closeable {
 					return null;
 				}
 
-				return new CreditPayment(components[1]);
+				return new CreditPayment(0.0f, components[1]);
 			} else {
 				return null;
 			}
