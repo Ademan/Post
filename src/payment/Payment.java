@@ -5,9 +5,13 @@ package payment;
  * @author Lowell Milliken
  */
 public abstract class Payment {
-    private final float amountDue;
+    private float amountDue;
     private float amountPaid;
     
+    public Payment() {
+        amountDue = 0.0f;
+    }
+
     public Payment(float pAmountDue) {
         amountDue = pAmountDue;
     }
@@ -15,6 +19,10 @@ public abstract class Payment {
     // getter
     public float getAmountDue() {
         return amountDue;
+    }
+
+    public void setAmountDue(float amountDue) {
+        this.amountDue = amountDue;
     }
 
     public float getAmountPaid() {
