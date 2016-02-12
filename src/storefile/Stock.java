@@ -1,22 +1,21 @@
 package storefile;
 
-import transactionfile.LineItem;
+import transaction.LineItem;
 
 import java.util.Map;
 
+/**
+ * Stock contains a map of (UPC, LineItem) pairs
+ */
 public class Stock {
 
-    private Map<String, LineItem> mItems;
-
-    public Stock() {
-        //Default Constructor.
-    }
+    private Map<String, LineItem> mStockItems;
 
     public Stock(String pFilename){
-
+        mStockItems = new TextReader(pFilename).read();
     }
 
     public Map<String, LineItem> getStockItems(){
-        return mItems;
+        return mStockItems;
     }
 }
