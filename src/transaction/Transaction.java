@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import post.Customer;
 
+import payment.Payment;
+
 public class Transaction {
 	private Customer customer;
 	private List<LineItem> items;

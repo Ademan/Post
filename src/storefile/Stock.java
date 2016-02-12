@@ -1,6 +1,6 @@
 package storefile;
 
-import transactionfile.LineItem;
+import transaction.LineItem;
 
 import java.util.Map;
 
