@@ -7,6 +7,8 @@ import post.Customer;
 
 import payment.Payment;
 
+import storefile.Item;
+
 public class Transaction {
 	private Customer customer;
 	private List<LineItem> items;
@@ -21,4 +23,16 @@ public class Transaction {
 	public List<LineItem> getItems() { return items; }
 	public Payment getPayment() { return payment; }
 	public Customer getCustomer() { return customer; }
+
+	public float getAmountDue() {
+		double amountDue = 0.0;
+
+		for (LineItem lineItem : items) {
+			Item item = lineItem.getItem();
+
+			amountDue += item.getPrice() * lineItem.getQuantity();
+		}
+
+		return (float)amountDue;
+	}
 }
