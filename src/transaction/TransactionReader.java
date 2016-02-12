@@ -56,7 +56,9 @@ public class TransactionReader implements Closeable {
 		}
 		public Transaction getTransaction() {
 			if (valid()) {
-				return new Transaction(customer, items, payment);
+				Transaction transaction = new Transaction(customer, items, payment);
+				payment.setAmountDue(transaction.getAmountDue());
+				return transaction;
 			} else {
 				return null;
 			}
