@@ -24,6 +24,7 @@ public class TextReceipt {
         BufferedWriter bWriter = new BufferedWriter(w);
         
         try {
+            bWriter.write("Customer Name: " + transaction.getCustomer().getName() + '\n');
             bWriter.write(createInvoiceHeader() + '\n');
             
             for(LineItem litem : transaction.getItems()) {
@@ -51,7 +52,7 @@ public class TextReceipt {
     }
     
     // Creates a String for a single line item
-    public String createLineItemString(LineItem litem) {  
+    public static String createLineItemString(LineItem litem) {  
         StringBuilder builder = new StringBuilder();
 
         builder.append(String.format("%1$" + COLUMN_WIDTH_L + "s",
@@ -69,7 +70,7 @@ public class TextReceipt {
     public String createPaymentString() {
         StringBuilder builder = new StringBuilder();
         
-        builder.append(String.format("%1$" + COLUMN_WIDTH_L + "s",
+        builder.append(String.format("%1$" + COLUMN_WIDTH_L + "s\n",
                        "Payment Type: " + transaction.getPayment().getTypeName()));        
         builder.append(String.format("%1$" + COLUMN_WIDTH_L + "s\n",
                        "Amount Due: " + transaction.getPayment().getAmountDue()));

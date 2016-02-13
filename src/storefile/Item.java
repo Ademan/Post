@@ -1,6 +1,8 @@
 package storefile;
 
 
+import transaction.LineItem;
+
 public class Item {
     private String mUPC;
     private String mDescription;
@@ -11,7 +13,9 @@ public class Item {
     }
 
     public Item(String pUPC, String pDescription, float pPrice){
-
+        mUPC = pUPC;
+        mDescription = pDescription;
+        mPrice = pPrice;
     }
 
     //*******Setters**************

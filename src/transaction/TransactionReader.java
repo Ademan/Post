@@ -102,11 +102,13 @@ public class TransactionReader implements Closeable {
 
 				LineItem lineItem = tryParseLineItem(line);
 				if (lineItem != null) {
+                                        System.out.println(TextReceipt.createLineItemString(lineItem));
 					builder.addLineItem(lineItem);
 					continue;
 				}
 
 				Customer customer = new Customer(line);
+                                System.out.println(customer.getName());
 				builder.setCustomer(customer);
 			}
 	 	} catch (IOException e) {
@@ -173,6 +175,7 @@ public class TransactionReader implements Closeable {
 			quantityString = quantityString.trim();
 
 			int quantity = Integer.parseInt(quantityString, 10);
+                        
 			if (quantity < 1) {
 				return null;
 			}
