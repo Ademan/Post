@@ -7,7 +7,7 @@ package payment;
 public class CashPayment extends Payment {
     
     public CashPayment(float amountDue) {
-        super(amountDue);
+        super(amountDue, "Cash");
     }
     
     @Override
