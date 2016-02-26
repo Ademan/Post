@@ -1,12 +1,17 @@
 package Transactions;
 
 import Transactions.payment.Payment;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**Transaction class Takes a Customer, Array of LineItems and Payment type 
  * to create a whole Transaction.
  * @author Jrubin
+ * @author Lowell Milliken
  */
-public class Transaction {
+// Lowell: Modified to be remote object with RMI
+
+public class Transaction extends UnicastRemoteObject implements TransactionInterface {
     private static final int MAX_LINES = 100;
     
     private Customer customer;
@@ -17,7 +22,7 @@ public class Transaction {
     /** Constructs a Transaction object with a null Customer, empty ItemLine
      * array and empty Payment info.
      */
-    public Transaction(){
+    public Transaction() throws RemoteException {
         this.customer = new Customer(null);
         this.lineItems = new ItemLine[MAX_LINES];
         this.numOfLines = 0;
@@ -62,7 +67,7 @@ public class Transaction {
      * 
      * @return number of lines 
      */
-    int getCartSize(){
+    public int getCartSize(){
         return this.numOfLines;
     }
     
@@ -70,14 +75,14 @@ public class Transaction {
      * new customer for this transaction
      * @param newName 
      */
-    void setCustomer(String newName){
+    public void setCustomer(String newName){
         this.customer = new Customer(newName);
     }
     /**takes a Customer object and makes it the customer for this transaction
      * 
      * @param newCustomer 
      */
-    void setCustomer(Customer newCustomer){
+    public void setCustomer(Customer newCustomer){
         this.customer = newCustomer;
     }
     
@@ -85,17 +90,24 @@ public class Transaction {
      * 
      * @param newLn 
      */
-    void addItemLine(ItemLine newLn){
+    public void addItemLine(ItemLine newLn){
         this.lineItems[numOfLines] = newLn;
         this.numOfLines++;
+    }
+
+    /**takes a string and integer, makes a ItemLine, and adds it to the Item List
+     * @param upc
+     * @param quantity
+     */
+    public void addItemLine(String upc, int quantity) {
+        this.lineItems[numOfLines] = new ItemLine(upc, quantity);
     }
     
     /**Takes a Payment object to set Payment
      * 
      * @param newPayment 
      */
-    void setPayment(Payment newPayment){
+    public void setPayment(Payment newPayment){
         this.payment = newPayment;
     }
-
 }
