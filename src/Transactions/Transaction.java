@@ -3,6 +3,7 @@ package Transactions;
 import Transactions.payment.Payment;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import PostInterfaces.TransactionI;
 
 /**Transaction class Takes a Customer, Array of LineItems and Payment type 
  * to create a whole Transaction.
@@ -11,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 // Lowell: Modified to be remote object with RMI
 
-public class Transaction extends UnicastRemoteObject implements TransactionInterface {
+public class Transaction extends UnicastRemoteObject implements TransactionI {
     private static final int MAX_LINES = 100;
     
     private Customer customer;
@@ -21,6 +22,8 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
     
     /** Constructs a Transaction object with a null Customer, empty ItemLine
      * array and empty Payment info.
+     * 
+     * @throws RemoteException
      */
     public Transaction() throws RemoteException {
         this.customer = new Customer(null);
@@ -32,7 +35,7 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
     /** Prints all the information of the Transaction
      * 
      */
-    void printTransaction(){
+    void printTransaction() throws RemoteException{
         System.out.println("Customer: " + customer.getName());
         for(int i=0;i<numOfLines;i++){
             lineItems[i].printItem();  
@@ -44,7 +47,7 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * 
      * @return Customer
      */
-    public Customer getCustomer(){
+    public Customer getCustomer()throws RemoteException{
         return this.customer;
     }
     
@@ -52,14 +55,14 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * 
      * @return ItemLine array 
      */
-    public ItemLine[] getItemList(){
+    public ItemLine[] getItemList()throws RemoteException{
         return this.lineItems;
     }
     /**Returns the payment for this transaction
      * 
      * @return payment type
      */
-    public Payment getPayment(){
+    public Payment getPayment()throws RemoteException{
         return this.payment;
     }
     
@@ -67,7 +70,7 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * 
      * @return number of lines 
      */
-    public int getCartSize(){
+    public int getCartSize()throws RemoteException{
         return this.numOfLines;
     }
     
@@ -75,14 +78,14 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * new customer for this transaction
      * @param newName 
      */
-    public void setCustomer(String newName){
+    public void setCustomer(String newName) throws RemoteException{
         this.customer = new Customer(newName);
     }
     /**takes a Customer object and makes it the customer for this transaction
      * 
      * @param newCustomer 
      */
-    public void setCustomer(Customer newCustomer){
+    public void setCustomer(Customer newCustomer)throws RemoteException{
         this.customer = newCustomer;
     }
     
@@ -90,7 +93,7 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * 
      * @param newLn 
      */
-    public void addItemLine(ItemLine newLn){
+    public void addItemLine(ItemLine newLn)throws RemoteException{
         this.lineItems[numOfLines] = newLn;
         this.numOfLines++;
     }
@@ -98,8 +101,9 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
     /**takes a string and integer, makes a ItemLine, and adds it to the Item List
      * @param upc
      * @param quantity
+     * @throws java.rmi.RemoteException
      */
-    public void addItemLine(String upc, int quantity) {
+    public void addItemLine(String upc, int quantity) throws RemoteException{
         this.lineItems[numOfLines] = new ItemLine(upc, quantity);
     }
     
@@ -107,7 +111,7 @@ public class Transaction extends UnicastRemoteObject implements TransactionInter
      * 
      * @param newPayment 
      */
-    public void setPayment(Payment newPayment){
+    public void setPayment(Payment newPayment)throws RemoteException{
         this.payment = newPayment;
     }
 }
