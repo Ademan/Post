@@ -5,11 +5,13 @@
  */
 package postgui.payment;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Tony
  */
-public class GPaymentCreditPanel extends javax.swing.JPanel {
+public class GPaymentCreditPanel extends javax.swing.JPanel implements PaymentInterface {
 
     /**
      * Creates new form GPaymentCreditPanel
@@ -71,7 +73,8 @@ public class GPaymentCreditPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPayCreditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPayCreditMouseClicked
-        System.out.println("Credit Pay button clicked");
+//        System.out.println("Credit Pay button clicked");
+        onPayButtonClicked();
     }//GEN-LAST:event_btnPayCreditMouseClicked
 
 
@@ -80,4 +83,17 @@ public class GPaymentCreditPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblCredit;
     private javax.swing.JTextField txtCCNum;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onPayButtonClicked() {
+        String cardNum = txtCCNum.getText();
+        String regex = "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$";
+        String message = "";
+        if (cardNum.matches(regex)) {
+            message = "Credit card transaction processed";
+        } else {
+            message = "Invalid credit card number";
+        }
+        JOptionPane.showMessageDialog(getRootPane(), message);
+    }
 }

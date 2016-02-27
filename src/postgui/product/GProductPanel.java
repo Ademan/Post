@@ -1,5 +1,15 @@
 package postgui.product;
 
+import PostInterfaces.ItemI;
+import PostInterfaces.RemoteArrayAccessor;
+import PostInterfaces.StoreManager;
+import PostInterfaces.TransactionI;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import postgui.invoice.InvoicePanel;
 
@@ -8,12 +18,13 @@ import postgui.invoice.InvoicePanel;
  * @author Tony
  */
 public class GProductPanel extends javax.swing.JPanel {
-
+    private float[] priceList; //price list for items
     /**
      * Creates new form GProductPanel
      */
     public GProductPanel() {
         initComponents();
+        setCboItemList();
     }
 
     /**
@@ -102,7 +113,8 @@ public class GProductPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtQtyKeyReleased
 
     private void btnAddItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddItemMouseClicked
-        if (this.cboItemList.getSelectedIndex() < 1) {
+        int selectedIdx = this.cboItemList.getSelectedIndex();
+        if (selectedIdx < 0) {
             JOptionPane.showMessageDialog(this, "Must Select an Item.", "Item Selection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -119,11 +131,11 @@ public class GProductPanel extends javax.swing.JPanel {
         if (items.length < 1 || qty.length() < 1) {
             return;
         }
-        float prc = Float.parseFloat(items[2]);
+        float prc = priceList[selectedIdx];
         int qqty = Integer.parseInt(qty);
         float n_prc = prc * qqty;
         this.inv_p.updateTotalLabel(n_prc);
-        String row = String.format("%-25s %-10s %13s %17s\n", items[1], qty, prc, n_prc);
+        String row = String.format("%-25s %-10s %13.2f %17.2f\n", items[1], qty, prc, n_prc);
         this.inv_p.addItemToInvoice(row);
         this.resetProductPanel();
 
@@ -137,6 +149,36 @@ public class GProductPanel extends javax.swing.JPanel {
     public void attachInvoicePanel(javax.swing.JPanel ip) {;
         this.inv_p = (InvoicePanel) ip;
     }
+    
+    private void setCboItemList() {
+        try {
+            Registry registry = LocateRegistry.getRegistry();
+            StoreManager sManager = (StoreManager) registry.lookup("InvoiceManager");
+            RemoteArrayAccessor<String> UPCList =
+                    (RemoteArrayAccessor<String>)registry.lookup("UPCList");
+            int length = UPCList.getLength();
+            String [] itemList = new String[length];
+            priceList = new float[length];
+            for(int i = 0; i < length; i++)
+            {
+                String upc = UPCList.get(i);
+                int numSpaces = 7-upc.length() > 0 ? 7-upc.length() : 0;
+                String spaces = new String(new char[numSpaces]).replace("\0", " ");
+                ItemI item = sManager.getItem(upc);
+                itemList[i] = upc + spaces + item.getItemDescription();
+                priceList[i] = (float) item.getItemPrice();
+            }
+            
+            cboItemList.setModel(new DefaultComboBoxModel(itemList));
+        } catch (RemoteException e) {
+            System.out.println("Remote Exception: " + e);
+        } catch (NotBoundException e) {
+            System.out.println("NotBoundException: " + e);
+        }
+        
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddItem;
     private javax.swing.JComboBox cboItemList;

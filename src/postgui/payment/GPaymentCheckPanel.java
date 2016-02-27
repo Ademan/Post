@@ -5,11 +5,15 @@
  */
 package postgui.payment;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import postgui.GPost;
+
 /**
  *
  * @author Tony
  */
-public class GPaymentCheckPanel extends javax.swing.JPanel {
+public class GPaymentCheckPanel extends javax.swing.JPanel implements PaymentInterface{
 
     /**
      * Creates new form GPaymentCheckPanel
@@ -71,6 +75,7 @@ public class GPaymentCheckPanel extends javax.swing.JPanel {
 
     private void btnPayCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPayCheckMouseClicked
         System.out.println("Check Pay button clicked");
+        onPayButtonClicked();
     }//GEN-LAST:event_btnPayCheckMouseClicked
 
 
@@ -79,4 +84,22 @@ public class GPaymentCheckPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblCheck;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onPayButtonClicked() {
+        String message = "";
+        try {
+            float payAmount = Float.parseFloat(txtAmount.getText());
+            float totalPrice = ((GPost) SwingUtilities.getAncestorOfClass(GPost.class, this)).getTotalPrice();
+            float change = payAmount-totalPrice;
+            if (change >= 0) {
+                message = "Your cash back is $" + String.format("%.2f", change);
+            } else {
+                message = "Insufficient Amount";
+            }
+        } catch (NumberFormatException numberFormatException) {
+            message = "Invalid amount";
+        }
+        JOptionPane.showMessageDialog(getRootPane(), message);
+    }
 }

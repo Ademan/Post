@@ -16,7 +16,7 @@ public interface ItemI extends Remote {
     
     
         //GETTERS
-    public String getItemDescription()throws RemoteException;
+    public String getItemDescription() throws RemoteException;
     
     public String getItemUPC()throws RemoteException;
     

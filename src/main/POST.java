@@ -8,6 +8,7 @@ import Transactions.payment.Payment;
 import Transactions.Transaction;
 import Transactions.payment.Check;
 import Transactions.payment.Credit;
+import java.rmi.RemoteException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,54 +70,61 @@ public class POST {
         builder.append(storeName);
         builder.append("\n\n");
 
-        String name = transaction.getCustomer().getName();
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/y h:mm a");
-
-        builder.append(format(COLUMN_WIDTH_L, name));
-        builder.append(format(COLUMN_WIDTH_C + COLUMN_WIDTH_R, dateFormat.format(calendar.getTime())));
-        builder.append('\n');
-
+        Payment payment = null;
         float total = 0;
-
-        for (ItemLine itemLine : transaction.getItemList()) {
-            if (itemLine == null) {
-                break;
-            }
-
-            String upc = itemLine.getUPC();
-            int quantity = itemLine.getQuantity();
+        try {
+            String name = transaction.getCustomer().getName();
             
-            String description;
-            double price = 0;
-            double subtotal = 0;
-
-            if (catalog.UPCExists(upc)) {
-                Item item = catalog.getItem(upc);
-
-                description = item.getItemDescription();
-                price = item.getItemPrice();
-                subtotal = price * quantity;
-            } else {
-                description = String.format("??? [UPC %s]", upc);
-            }
-
-            builder.append(format(COLUMN_WIDTH_L, description));
-            builder.append(format(COLUMN_WIDTH_C, String.format("%d @ %.2f", quantity, price)));
-            builder.append(format(COLUMN_WIDTH_R, String.format("%.2f", subtotal)));
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/y h:mm a");
+            
+            builder.append(format(COLUMN_WIDTH_L, name));
+            builder.append(format(COLUMN_WIDTH_C + COLUMN_WIDTH_R, dateFormat.format(calendar.getTime())));
             builder.append('\n');
-
-            total += subtotal;
+            
+            total = 0;
+            
+            for (ItemLine itemLine : transaction.getItemList()) {
+                if (itemLine == null) {
+                    break;
+                }
+                
+                String upc = itemLine.getUPC();
+                int quantity = itemLine.getQuantity();
+                
+                String description;
+                double price = 0;
+                double subtotal = 0;
+                
+                if (catalog.UPCExists(upc)) {
+                    Item item = catalog.getItem(upc);
+                    
+                    description = item.getItemDescription();
+                    price = item.getItemPrice();
+                    subtotal = price * quantity;
+                } else {
+                    description = String.format("??? [UPC %s]", upc);
+                }
+                
+                builder.append(format(COLUMN_WIDTH_L, description));
+                builder.append(format(COLUMN_WIDTH_C, String.format("%d @ %.2f", quantity, price)));
+                builder.append(format(COLUMN_WIDTH_R, String.format("%.2f", subtotal)));
+                builder.append('\n');
+                
+                total += subtotal;
+            }
+            
+            builder.append("------");
+            builder.append('\n');
+            builder.append(format(COLUMN_WIDTH_L, "Total:"));
+            builder.append(format(COLUMN_WIDTH_C + COLUMN_WIDTH_R, String.format("$%.2f", total)));
+            builder.append('\n');
+            
+            payment = transaction.getPayment();
+        } catch (RemoteException remoteException) {
+            remoteException.printStackTrace();
         }
-
-        builder.append("------");
-        builder.append('\n');
-        builder.append(format(COLUMN_WIDTH_L, "Total:"));
-        builder.append(format(COLUMN_WIDTH_C + COLUMN_WIDTH_R, String.format("$%.2f", total)));
-        builder.append('\n');
-
-        Payment payment = transaction.getPayment();
+        
         String tendered;
 
         if (payment instanceof Check) {

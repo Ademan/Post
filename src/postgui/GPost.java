@@ -10,7 +10,16 @@ package postgui;
  * @author Tony
  */
 public final class GPost extends javax.swing.JFrame {
+    private float totalPrice; //total price of invoice
 
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    
     /**
      * Creates new form GPost
      */
