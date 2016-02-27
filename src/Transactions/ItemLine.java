@@ -7,7 +7,9 @@ import java.rmi.server.UnicastRemoteObject;
 /**ItemLine is a class that contains a single item in the cart
  * and specifies the quantity of that item to be checked out.
  * @author Jrubin
+ * @author Lowell Milliken
  */
+// Lowell: This class is now remote
 public class ItemLine extends UnicastRemoteObject implements ItemLineI {
     private int quantity;
     private String UPC;

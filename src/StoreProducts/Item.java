@@ -12,7 +12,9 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  *
  * @author andre_000
+ * @author Lowell Milliken
  */
+// Lowell: Item is now remote (able)
 public class Item extends UnicastRemoteObject implements ItemI {
     
     String description;

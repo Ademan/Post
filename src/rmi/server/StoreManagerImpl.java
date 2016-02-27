@@ -1,24 +1,28 @@
 
 package rmi.server;
 
-import PostInterfaces.InvoiceManager;
+import PostInterfaces.ItemI;
 import Transactions.Transaction;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import PostInterfaces.TransactionI;
 import java.util.HashMap;
 import java.util.Map;
+import PostInterfaces.StoreManager;
+import StoreProducts.Catalog;
 
 /**
  *
  * @author Lowell Milliken
  */
-public class InvoiceManagerImpl extends UnicastRemoteObject implements InvoiceManager {
+public class StoreManagerImpl extends UnicastRemoteObject implements StoreManager {
 
+    Catalog catalog;
+    
     final private Map<Integer,TransactionI> trans;
     private int transCount = 0;
     
-    public InvoiceManagerImpl() throws RemoteException {
+    public StoreManagerImpl() throws RemoteException {
         trans = new HashMap();
     }
     
@@ -31,6 +35,15 @@ public class InvoiceManagerImpl extends UnicastRemoteObject implements InvoiceMa
     
     public int getTransCount() throws RemoteException {
         return transCount;
+    }
+
+    @Override
+    public ItemI getItem(String upc) throws RemoteException {
+        return catalog.getItem(upc);
+    }
+    
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
     
 }

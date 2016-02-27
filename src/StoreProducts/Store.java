@@ -18,7 +18,10 @@ import java.util.logging.Logger;
 /**
  *
  * @author andre_000
+ * @author Lowell Milliken
  */
+// Lowell: try-catch block added for getNextProduct call since item is now
+//         remote
 
 public class Store {
     

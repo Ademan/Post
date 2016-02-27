@@ -1,11 +1,9 @@
 package rmi.server;
 
-import PostInterfaces.InvoiceManager;
 import StoreProducts.Catalog;
 import StoreProducts.Store;
-import java.rmi.*;
-import java.rmi.server.*;
 import java.rmi.registry.*;
+import PostInterfaces.StoreManager;
 
 /**
  *
@@ -13,7 +11,7 @@ import java.rmi.registry.*;
  */
 public class PostServer {
     
-    Store store;
+    private Store store;
     
     void init() {
         store = new Store();
@@ -23,10 +21,10 @@ public class PostServer {
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             
-            InvoiceManager im = new InvoiceManagerImpl();
+            StoreManagerImpl sm = new StoreManagerImpl();
+            sm.setCatalog(catalog);
             
-            registry.rebind("InvoiceManager", im);
-            System.out.println("registry rebound");
+            registry.rebind("InvoiceManager", (StoreManager) sm);
             
             for(String itemUPC : catalog.getUPCList()) {
                 registry.rebind(itemUPC, catalog.getItem(itemUPC));
@@ -34,6 +32,9 @@ public class PostServer {
             
             registry.rebind("UPCList",
                     new RemoteArrayAccessorImpl<String>(catalog.getUPCList()));
+            
+            System.out.println("registry rebound");
+            System.out.println("Server running...");
             
         } catch(Exception e) {
             System.out.println("Server not connected: " + e);

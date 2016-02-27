@@ -6,9 +6,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import postgui.GPost;
-import PostInterfaces.InvoiceManager;
 import PostInterfaces.RemoteArrayAccessor;
+import PostInterfaces.StoreManager;
 
 /**
  *
@@ -20,20 +19,22 @@ public class PostClientTest {
     public static void main (String [] args) {
         try {
             Registry registry = LocateRegistry.getRegistry();
-            InvoiceManager iManager = (InvoiceManager) registry.lookup("InvoiceManager");
+            StoreManager sManager = (StoreManager) registry.lookup("InvoiceManager");
             
-            TransactionI trans = iManager.newInvoice();
+            TransactionI trans = sManager.newInvoice();
             
             trans.addItemLine("1234", 1);
             
-            System.out.println(iManager.getTransCount());
+            System.out.println(sManager.getTransCount());
             
             RemoteArrayAccessor<String> UPCList =
                     (RemoteArrayAccessor<String>)registry.lookup("UPCList");
             
             for(int i = 0; i < UPCList.getLength(); i++)
             {
-                System.out.println(UPCList.get(i));
+                String upc = UPCList.get(i);
+                System.out.print(upc);
+                System.out.println("\t"+ sManager.getItem(upc).getItemDescription());
             }
             
                 

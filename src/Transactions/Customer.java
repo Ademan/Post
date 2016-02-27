@@ -7,7 +7,9 @@ import java.rmi.server.UnicastRemoteObject;
 /**Customer holds relevant information about the customer.
  * 
  * @author Jrubin
+ * @author Lowell Milliken
  */
+// Lowell: This class is now remote
 public class Customer extends UnicastRemoteObject implements CustomerI {
     private String name;
     

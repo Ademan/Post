@@ -19,12 +19,13 @@ import java.util.logging.Logger;
 /**
  *
  * @author andre_000
- * 
+ * @author Lowell Milliken
  * 
  * USED BY: Store
  * 
  * Initializes the catalog
  */
+// Lowell: Modified getNextProdcut to throw exception since Item is now remote
 public class ProductReader {
     
     private BufferedReader bReader;

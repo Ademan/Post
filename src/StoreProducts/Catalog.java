@@ -13,7 +13,10 @@ import java.util.logging.Logger;
 /**
  *
  * @author andre_000
+ * @author Lowell Milliken
  */
+// Lowell: made getUPCList public
+//         Item is remote now so needed to put methods calls in try-catch blocks
 
 public class Catalog {
     private static final int MAX_PRODUCTS = 100;
