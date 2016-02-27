@@ -7,13 +7,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import postgui.GPost;
-import rmi.server.InvoiceManager;
+import PostInterfaces.InvoiceManager;
+import PostInterfaces.RemoteArrayAccessor;
 
 /**
  *
  * @author Lowell Milliken
  */
-public class PostClient {
+public class PostClientTest {
     
     // test main
     public static void main (String [] args) {
@@ -21,11 +22,20 @@ public class PostClient {
             Registry registry = LocateRegistry.getRegistry();
             InvoiceManager iManager = (InvoiceManager) registry.lookup("InvoiceManager");
             
-            TransactionI trans =(TransactionI) iManager.newInvoice();
+            TransactionI trans = iManager.newInvoice();
             
             trans.addItemLine("1234", 1);
             
             System.out.println(iManager.getTransCount());
+            
+            RemoteArrayAccessor<String> UPCList =
+                    (RemoteArrayAccessor<String>)registry.lookup("UPCList");
+            
+            for(int i = 0; i < UPCList.getLength(); i++)
+            {
+                System.out.println(UPCList.get(i));
+            }
+            
                 
         } catch (RemoteException e) {
             System.out.println("Remote Exception: " + e);

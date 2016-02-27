@@ -1,5 +1,9 @@
 package StoreProducts;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,7 +40,11 @@ public class Catalog {
         //inseart new products list
         for(int i = 0; i < MAX_PRODUCTS; i++){
             this.products[i] = newProducts[i];
-            this.UPCList[this.numProducts] = newProducts[i].getItemUPC();
+            try {
+                this.UPCList[this.numProducts] = newProducts[i].getItemUPC();
+            } catch (RemoteException ex) {
+                Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             this.numProducts +=1;
         }    
@@ -46,7 +54,11 @@ public class Catalog {
         if(this.numProducts < 100){
             this.products[this.numProducts] = newItem;
             this.products[this.numProducts].setItemID(this.numProducts);
-            this.UPCList[this.numProducts] = newItem.getItemUPC();
+            try {
+                this.UPCList[this.numProducts] = newItem.getItemUPC();
+            } catch (RemoteException ex) {
+                Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             this.numProducts += 1;      //inc catalog size
             return 1;  //added succesfully
@@ -60,18 +72,31 @@ public class Catalog {
     public void printCatalog(){
         System.out.printf("%10s%25s%10s\n", "UPC", "Description", "Price");
         System.out.println("--------------------------------------------------");
-        Item itemToPrint = new Item();
+        Item itemToPrint;
+        try {
+            itemToPrint = new Item();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for(int i = 0; i < this.numProducts; i++){
             itemToPrint = this.products[i];
-            System.out.printf("%10s%25s%10s\n", itemToPrint.getItemUPC(), itemToPrint.getItemDescription(), itemToPrint.getItemPrice());
+            try {
+                System.out.printf("%10s%25s%10s\n", itemToPrint.getItemUPC(), itemToPrint.getItemDescription(), itemToPrint.getItemPrice());
 //            System.out.println()  
+            } catch (RemoteException ex) {
+                Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
     public boolean UPCExists(String upc){
         for(int i = 0; i < this.numProducts; i++){
-            if(upc.equalsIgnoreCase(this.products[i].getItemUPC())){
-                return true;
+            try {
+                if(upc.equalsIgnoreCase(this.products[i].getItemUPC())){
+                    return true;
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
@@ -79,15 +104,19 @@ public class Catalog {
     
     public Item getItem(String upc){
         for(int i = 0; i < this.numProducts; i++){
-            if(upc.equalsIgnoreCase(this.products[i].getItemUPC())){
-                return this.products[i];
+            try {
+                if(upc.equalsIgnoreCase(this.products[i].getItemUPC())){
+                    return this.products[i];
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(Catalog.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return null;
     }
     
     //UPC list for GUI
-    String[] getUPCList(){
+    public String[] getUPCList(){
         String rUPCList[] = new String[this.numProducts]; //upc list to return
         
         //create UPC list with proper size (SHRINKING)

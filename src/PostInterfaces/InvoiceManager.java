@@ -1,5 +1,5 @@
 
-package rmi.server;
+package PostInterfaces;
 
 import java.rmi.RemoteException;
 import PostInterfaces.TransactionI;

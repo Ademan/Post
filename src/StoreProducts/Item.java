@@ -1,5 +1,9 @@
 package StoreProducts;
 
+import PostInterfaces.ItemI;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +13,7 @@ package StoreProducts;
  *
  * @author andre_000
  */
-public class Item {
+public class Item extends UnicastRemoteObject implements ItemI {
     
     String description;
     String UPC;
@@ -17,7 +21,7 @@ public class Item {
     int ID;
     
     
-    Item(){
+    Item() throws RemoteException{
         
         this.description = "no description";
         this.UPC = "0000";
@@ -25,7 +29,8 @@ public class Item {
         this.ID = 0;
     }
 
-    Item(String newUPC, String newDescr, double newPrice, int newID){
+    Item(String newUPC, String newDescr, double newPrice, int newID) 
+            throws RemoteException{
 
         this.description = newDescr;
         this.UPC = newUPC;
@@ -34,18 +39,18 @@ public class Item {
     }
     
     //GETTERS
-    public String getItemDescription(){
+    public String getItemDescription()throws RemoteException{
         
         return this.description;
     }
     
-    String getItemUPC(){
+    public String getItemUPC()throws RemoteException{
         
         return this.UPC;
        
     }
     
-    public double getItemPrice(){
+    public double getItemPrice()throws RemoteException{
         
         return this.price;
     }

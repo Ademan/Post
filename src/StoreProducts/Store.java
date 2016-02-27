@@ -2,6 +2,7 @@ package StoreProducts;
 
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -95,7 +96,11 @@ public class Store {
 
         //FILILNG CATALOG
         while(storePR.hasNextProduct()){
-            storeCatalog.addProduct(storePR.getNextProduct());
+            try {
+                storeCatalog.addProduct(storePR.getNextProduct());
+            } catch (RemoteException ex) {
+                Logger.getLogger(Store.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         //marks catalog that it has been init'd from file
