@@ -220,4 +220,58 @@ test
 	traversal := InorderTraversal new: node1.
 	traversal printFullTraversal.
 	Transcript cr.
+		
+	"test case 4"
+	Transcript cr.
+	Transcript show: 'Test case 4'.
+	Transcript cr.
+	Transcript show: 'Expected order:'.
+	Transcript cr.
+	Transcript show: 'EDCBA'.
+	Transcript cr.
+	Transcript show: 'Actual order:'.
+	Transcript cr.
+	
+	node1 := BinTree new: 'A'.
+	node2 := BinTree new: 'B'.
+	node3 := BinTree new: 'C'.
+	node4 := BinTree new: 'D'.
+	node5 := BinTree new: 'E'.
+	node1 addLeftKid: node2.
+	node2 addLeftKid: node3.
+	node3 addLeftKid: node4.
+	node4 addLeftKid: node5.
+				
+	traversal := InorderTraversal new: node1.
+	traversal printFullTraversal.
+	Transcript cr.
+	
+	"test case 5"
+	Transcript cr.
+	Transcript show: 'Test case 5'.
+	Transcript cr.
+	Transcript show: 'Expected order:'.
+	Transcript cr.
+	Transcript show: 'ABCDE'.
+	Transcript cr.
+	Transcript show: 'Actual order:'.
+	Transcript cr.
+	
+	
+	node1 := BinTree new: 'A'.
+	node2 := BinTree new: 'B'.
+	node3 := BinTree new: 'C'.
+	node4 := BinTree new: 'D'.
+	node5 := BinTree new: 'E'.
+	node1 addRightKid: node2.
+	node2 addRightKid: node3.
+	node3 addRightKid: node4.
+	node4 addRightKid: node5.
+	
+	
+	traversal := InorderTraversal new: node1.
+	traversal printFullTraversal.
+	Transcript cr.
+	
 	! !
+
