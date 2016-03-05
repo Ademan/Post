@@ -1,75 +1,28 @@
-Object subclass: #BinTree
-	instanceVariableNames: 'leftKid rightKid label'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Binary-Trees'!
-!BinTree commentStamp: 'LM 3/3/2016 11:14' prior: 0!
-This class represents a node in a binary tree!
-
-
-!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 16:51'!
-getLabel
+Object subclass: #BinTree	instanceVariableNames: 'leftKid rightKid label'	classVariableNames: ''	poolDictionaries: ''	category: 'Binary-Trees'!!BinTree commentStamp: 'LM 3/3/2016 11:14' prior: 0!This class represents a node in a binary tree!!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 16:51'!getLabel
 	"returns the label"
 	
-	^label! !
-
-!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 11:08'!
-getLeftKid
+	^label! !!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 11:08'!getLeftKid
 	"returns left kid"
 	
-	^leftKid! !
-
-!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 11:10'!
-getRightKid
+	^leftKid! !!BinTree methodsFor: 'accessors' stamp: 'LM 3/3/2016 11:10'!getRightKid
 	"returns right kid"
 	
-	^rightKid! !
-
-
-!BinTree methodsFor: 'initialization' stamp: 'LM 3/3/2016 16:40'!
-addLeftKid: newLeftKid
+	^rightKid! !!BinTree methodsFor: 'accessors' stamp: 'LM 3/4/2016 19:42'!print	"prints label"	Transcript show: label.! !!BinTree methodsFor: 'initialization' stamp: 'LM 3/3/2016 16:40'!addLeftKid: newLeftKid
 	"add the left kid of this node"
 
-	leftKid := newLeftKid! !
-
-!BinTree methodsFor: 'initialization' stamp: 'LM 3/4/2016 15:31'!
-addRightKid: newRightKid
+	leftKid := newLeftKid! !!BinTree methodsFor: 'initialization' stamp: 'LM 3/4/2016 15:31'!addRightKid: newRightKid
 	"add a right kid to this node"
 
-	rightKid := newRightKid! !
-
-!BinTree methodsFor: 'initialization' stamp: 'LM 3/4/2016 14:56'!
-setLabel: aLabel
+	rightKid := newRightKid! !!BinTree methodsFor: 'initialization' stamp: 'LM 3/4/2016 14:56'!setLabel: aLabel
 	"set a label for the node"
-	label := aLabel! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-BinTree class
-	instanceVariableNames: ''!
-
-!BinTree class methodsFor: 'construction' stamp: 'LM 3/4/2016 14:54'!
-new: label
+	label := aLabel! !"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!BinTree class	instanceVariableNames: ''!!BinTree class methodsFor: 'construction' stamp: 'LM 3/4/2016 14:54'!new: label
 	"returns new BinTree object with a label"
 	
 	| node |
 	
 	node := self new.
 	node setLabel: label.
-	^node.! !
-
-
-Object subclass: #InorderTraversal
-	instanceVariableNames: 'root stack current'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Binary-Trees'!
-!InorderTraversal commentStamp: 'LM 3/3/2016 11:14' prior: 0!
-This class performs an in-order traversal of a binary tree!
-
-
-!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 17:00'!
-first
+	^node.! !Object subclass: #InorderTraversal	instanceVariableNames: 'root stack current'	classVariableNames: ''	poolDictionaries: ''	category: 'Binary-Trees'!!InorderTraversal commentStamp: 'LM 3/3/2016 11:14' prior: 0!This class performs an in-order traversal of a binary tree!!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 19:43'!first
 	"print the label of the first node"
 	stack push: root.
 	
@@ -80,11 +33,8 @@ first
 	].
 	
 	current := stack pop.
-	Transcript show: (current getLabel).
-! !
-
-!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 17:00'!
-next
+	^current.
+! !!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 19:43'!next
 	"print label of the next node in the tree"
 
 	
@@ -94,36 +44,17 @@ next
 		current := current getLeftKid.
 	].
 
-	current := stack pop.
-	Transcript show: current getLabel.! !
-
-!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 17:12'!
-printFullTraversal
+	current := stack pop.	^current.! !!InorderTraversal methodsFor: 'traversal' stamp: 'LM 3/4/2016 19:43'!printFullTraversal
 	"prints the full traversal of the tree"
 	| done |
 	
-	self first.
+	self first print. 
 	done := False.
-	[done = False] whileTrue:[[self next.] on: Error do: [done := True].].! !
-
-
-!InorderTraversal methodsFor: 'inititialization' stamp: 'LM 3/4/2016 14:59'!
-initializeStack
+	[done = False] whileTrue:[[self next print.] on: Error do: [done := True].].! !!InorderTraversal methodsFor: 'inititialization' stamp: 'LM 3/4/2016 14:59'!initializeStack
 	"create the stack"
-	stack := Stack new! !
-
-!InorderTraversal methodsFor: 'inititialization' stamp: 'LM 3/4/2016 14:52'!
-setRoot: aRoot
+	stack := Stack new! !!InorderTraversal methodsFor: 'inititialization' stamp: 'LM 3/4/2016 14:52'!setRoot: aRoot
 	" set the root node"
-	root := aRoot.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-InorderTraversal class
-	instanceVariableNames: ''!
-
-!InorderTraversal class methodsFor: 'construction' stamp: 'LM 3/4/2016 15:00'!
-new: root
+	root := aRoot.! !"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!InorderTraversal class	instanceVariableNames: ''!!InorderTraversal class methodsFor: 'construction' stamp: 'LM 3/4/2016 15:00'!new: root
 	"returns new InorderTraversal object with a root node"
 	
 	| traversal |
@@ -132,17 +63,7 @@ new: root
 	traversal setRoot: root.
 	traversal initializeStack.
 	^traversal
-	! !
-
-
-Object subclass: #Tester
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Binary-Trees'!
-
-!Tester methodsFor: 'testing' stamp: 'LM 3/4/2016 17:14'!
-test
+	! !Object subclass: #Tester	instanceVariableNames: ''	classVariableNames: ''	poolDictionaries: ''	category: 'Binary-Trees'!!Tester methodsFor: 'testing' stamp: 'LM 3/4/2016 17:14'!test
 	"test cases for inorder binary tree traversal"
 
 	| node1 node2 node3 node4 node5 node6 node7 traversal |
@@ -273,5 +194,4 @@ test
 	traversal printFullTraversal.
 	Transcript cr.
 	
-	! !
-
+	! !
